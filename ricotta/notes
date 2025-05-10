@@ -1,0 +1,11 @@
+
+docker run -it -v "%cd%":/data:z immcantation/suite:4.6.0 bash
+
+export IGDATA=/usr/local/share/igblast
+time igblastn -germline_db_V ../ricotta/db/ricotta_TRV.fasta \
+   -germline_db_J ../ricotta/db/ricotta_TRJ.fasta \
+   -germline_db_D ../ricotta/db/ricotta_TRD.fasta \
+   -query sample_1000000.fasta \
+   -auxiliary_data ../ricotta/ricotta_TR.aux \
+   -custom_internal_data ../ricotta/ricotta_TR.ndm \
+   -show_translation -outfmt 19 >sample_1000000.tsv

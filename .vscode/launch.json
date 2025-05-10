@@ -1,0 +1,24 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "calc_support_and_set",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/python/calc_support_and_set.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/ricotta",
+        },
+        {
+            "name": "calc_igblast_support",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/python/calc_igblast_support.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/PRJNA603748",
+        }
+    ]
+}
