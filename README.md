@@ -7,10 +7,10 @@
 ## personalised set from ricotta data
 - extract refs for each locus
 - combine into a single TR set:
-  python/calc_support_and_set.py
-  igblast dbs in ricotta/db
-  ricotta/ricotta_TR.aux
-  ricotta/ricotta_TR.ndm
+- python/calc_support_and_set.py
+- igblast dbs in ricotta/db
+- ricotta/ricotta_TR.aux
+- ricotta/ricotta_TR.ndm
   
 ## full-length VDJ sequences from PRJNA603748
 - PRJNA603748/SRRs.txt - list of sequence accessions
