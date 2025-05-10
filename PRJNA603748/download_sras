@@ -1,0 +1,9 @@
+#!/bin/bash
+
+
+for ind in `seq $1 $2`
+do
+  sra_num=$(sed -n "${ind}p" < SRRs.txt)
+  echo $sra_num
+  prefetch $sra_num  --max-size 40GB
+done
