@@ -1,0 +1,8 @@
+/.idea
+/temp
+*.pyc
+__pycache__
+*all_contigs.fasta
+*all_contigs.tsv
+*all_contigs.fasta.gz
+*all_contigs.tsv.gz
