@@ -13,7 +13,7 @@
 - updated with genomic sequences using allele_table_to_ref.py
 
 ## TODO - Coding
-- Submit ricotta assemblies to the SRA and create a table mapping repertoires to SRRs so that we can list the 'best' SRR supporting each allele (OGRDB submission needs this)
+- Submit ricotta assemblies to the SRA and create a table mapping sample names in the allele table to SRRs so that we can list the 'best' SRR supporting each allele (OGRDB submission needs this)
 - Update tcr_db.csv with usage information from annotated repertoires: include number of supporting repertoires, max supporting repertoire (SRR), max supporting count
 - Produce a submission sheet for IUIS - talk to Corey about what he needs, use the columns in the allele tabke as a starting point. May be enough just to filter this to the 'best' example for each allele that meets the submission criteria (see code in allele_table_to_ref.py for the criteria)
 - Produce submission sheets for OGRDB. See notes.txt in ./sample_reports for what's required.
