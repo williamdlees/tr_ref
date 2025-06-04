@@ -1,0 +1,20 @@
+OGRDB submission
+
+The 'upload' file lists the sequences to be added to a set. Each row contains, among other things, a supporting sequence extracted from the assembly, together with feature coordinates that match that supporting sequence. 
+- gene_label should be the name of the allele in our reference set. imgt is IMGT's name, if there is one
+- functionality (column C) should be ORF or P 
+- the supporting sequence is in column F ('sequence'). 
+- column G ('sequence_gapped') should be the V, D or J core coding sequence, gapped in the case of V. Its coordinates in the supporting sequence are gene_start and gene_end (cols U, V)
+- the supporting sequence should always be 5' to 3'
+- mapped (column T) should be Y because all our alleles are mapped to the genomic reference
+
+The 'evidence' file lists one or more pieces of supporting genomic evidence - usually accession numbers of the supporting assemblies. Each row has coordinates of the features within the assembly.
+- gene_label (col A) must match one of the labels in the 'upload' file. The same gene_label can be used on multiple rows but we will aim for one row per allele.
+- 'sequence_type' (col C) will always be Locational in our case, because all sequences are mapped to a reference. 
+- the coordinates in this file are all relative to the assembly whose accession number is listed in column E (accession)
+- the sense (column I) is + if the asembly runs 5' to 3' (the 'IMGT sense') and - if it runs 3' to 5'
+- for all coordinate pairs, start < end regardless of sense
+- gene_start/gene_end (cols M,N) delimit the sequence that is annotated for this gene. That sequence is in 'sequence' (col B) and is always 5' to 3' in col B.
+- start/end (cols G,H) are the coordinates of the core coding sequence
+
+
