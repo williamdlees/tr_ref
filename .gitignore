@@ -6,3 +6,4 @@ __pycache__
 *all_contigs.tsv
 *all_contigs.fasta.gz
 *all_contigs.tsv.gz
+master*alleles.csv
