@@ -31,6 +31,34 @@ def generate_new_label(label_database):
 
 loci = ['TRA', 'TRD', 'TRB', 'TRG']
 
+substitution_dict = {
+    "TRAV1-1*01_c170g": "TRAV1-1*02",
+    "TRAV12-2*01_g86t_t164c": "TRAV12-2*03",
+    "TRAV12-2*01_t164c": "TRAV12-2*02",
+    "TRAV14/DV4*01_c306t": "TRAV14/DV4*03",
+    "TRAV21*01_g15a": "TRAV21*02",
+    "TRAV35*01_a135c": "TRAV35*02",
+    "TRAV36/DV7*05_c54t_a301g": "TRAV36/DV7*04",
+    "TRAV38-1*01_a89g_g129a": "TRAV38-1*03",
+    "TRAV6*01_c87t": "TRAV6*02",
+    "TRAV6*01_c87t_a271g": "TRAV6*04",
+    "TRAV6*01_c87t_c165t": "TRAV6*03",
+    "TRAV8-4*01_a45g_t172a_c176g": "TRAV8-4*03",
+    "TRAV8-7*01_324caggag329": "TRAV8-7*01",
+    "TRAV8-7*02_324caggag329": "TRAV8-7*02",
+    "TRAV9-2*02_a246g": "TRAV9-2*03",
+    "TRDV2*01_g49a": "TRDV2*02",
+    "TRBV10-3*01_t114c_g156a": "TRBV10-3*03",
+    "TRBV11-3*01_t128g": "TRBV11-3*04",
+    "TRBV14*01_g204a": "TRBV14*02",
+    "TRBV19*01_g171c": "TRBV19*03",
+    "TRBV2*01_g65a": "TRBV2*02",
+    "TRBV20-1*01_t28a": "TRBV20-1*02",
+    "TRBV20-1*01_t28a_c142a": "TRBV20-1*05",
+    "TRGV4*02_27d6": "TRGV2*02",
+}
+
+# also don't coalesce Ds and Js.
 
 def process_locus(locus):
     recs = simple.read_csv(f'{allele_dir}/allele_table/master_{locus}_alleles.csv')
