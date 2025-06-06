@@ -1,6 +1,6 @@
 from receptor_utils import simple_bio_seq as simple
 
-recs = simple.read_csv('PRJNA1083421_all_contigs.tsv', delimiter='\t')
+recs = simple.read_csv('all_projects_all_contigs.tsv', delimiter='\t')
 
 supported_alleles = {}
 
@@ -38,7 +38,7 @@ for allele in sorted(supported_alleles.keys(), key=lambda x: (supported_alleles[
         'support': supported_alleles[allele]['support'],
     })
 
-simple.write_csv(f'PRJNA1083421_all_contigs.csv', summary)
+simple.write_csv(f'all_projects_all_contigs_support.csv', summary)
 
 for locus in ['TRA', 'TRD', 'TRB', 'TRG']:
     for stype in ['V', 'D', 'J']:
