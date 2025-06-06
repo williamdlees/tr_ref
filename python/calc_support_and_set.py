@@ -64,6 +64,6 @@ def process_locus(locus):
 
 
 if __name__ == '__main__':
-    print('Non-novel/Novel alleles:')
+    print('Total/Novel alleles:')
     for locus in loci:
         process_locus(locus)
