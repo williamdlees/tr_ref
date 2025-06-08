@@ -10,4 +10,5 @@ master*alleles.csv
 ricotta_master*.csv
 riciotta_master*.csv
 all_10x_projects/
+*.tar.gz
 

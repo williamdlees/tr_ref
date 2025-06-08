@@ -1,5 +1,5 @@
 
-10x sequences from the following projects were downloaded from SARA and extracted to Cellranger.
+10x sequences from the following projects were downloaded from SRA and extracted to Cellranger.
 See example files download_sras and process*.slurm in this directory
 PRJNA747292
 PRJNA603748
@@ -9,15 +9,16 @@ link to consolidated contigs from all samples:  http://vdjbase-distribution.s3-w
 
 
 Contigs were annotated with the reference set in ../ricotta_june_2 using the commands below.
-link to annotation file:  http://vdjbase-distribution.s3-website-us-east-1.amazonaws.com/tcr_set/june_2/all_10x_projects_all_contigs_igblast.tsv.gz
+link to annotation file:  http://vdjbase-distribution.s3-website-us-east-1.amazonaws.com/tcr_set/june_7/all_10x_projects_all_contigs.tsv.gz
 
 docker run -it -v "%cd%":/data:z immcantation/suite:4.6.0 bash
 
 export IGDATA=/usr/local/share/igblast
-time igblastn -germline_db_V ../ricotta_june_2/db/ricotta_TRV.fasta \
-   -germline_db_J ../ricotta_june_2/db/ricotta_TRJ.fasta \
-   -germline_db_D ../ricotta_june_2/db/ricotta_TRD.fasta \
-   -query all_projects_all_contigs.fasta \
-   -auxiliary_data ../ricotta_june_2/ricotta_TR.aux \
-   -custom_internal_data ../ricotta_june_2/ricotta_TR.ndm \
-   -show_translation -outfmt 19 >all_projects_all_contigs.tsv
+time igblastn \
+   -germline_db_V ../ricotta_june_7/db/ricotta_TRV.fasta \
+   -germline_db_J ../ricotta_june_7/db/ricotta_TRJ.fasta \
+   -germline_db_D ../ricotta_june_7/db/ricotta_TRD.fasta \
+   -query all_10x_projects_all_contigs.fasta \
+   -auxiliary_data ../ricotta_june_7/ricotta_TR.aux \
+   -custom_internal_data ../ricotta_june_7/ricotta_TR.ndm \
+   -show_translation -outfmt 19 >all_10x_projects_all_contigs.tsv

@@ -1,7 +1,7 @@
 # notes on data for tr ref
 
 ## reference sets
-- current version in ./ricotta_june_2
+- current version in ./ricotta_june_7
 - genomic allele tables are in a sub-directory
 
 ## 10x data
