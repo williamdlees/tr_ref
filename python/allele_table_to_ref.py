@@ -6,9 +6,9 @@ from receptor_utils import simple_bio_seq as simple
 import random
 import base64
 
-allele_dir = 'ricotta_june_7'
-tcr_db_name_in = 'db/2025_06_04_imgt_start/tcr_db.csv'
-tcr_db_name_out = 'db/2025_06_07/tcr_db.csv'
+allele_dir = 'ricotta_aug_28'
+tcr_db_name_in = 'db/2025_06_07/tcr_db.csv'
+tcr_db_name_out = 'db/2025_08_28/tcr_db.csv'
 
 label_database = []
 

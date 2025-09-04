@@ -1,0 +1,18 @@
+I just quickly ran these through the same code as last time to do a quick check against the 10X assemblies, and it looks there’s still one gene family that’s not playing nicely: TRBV20-1 (the one that Mats coincidentally flagged up recently). It’s maybe worth tweaking in the final re-run, as it’s a fairly abundant gene.
+Basically it looks like digger and IMGT both report a fairly long 3’ on the L-PART1, I can’t find any evidence of being used in the 10X data. Instead the leader I can find (in about 14k reads) is about half as long, presumably splicing from a much more 5’ site. As that’s fairly short I looked for an upstream in-frame ATG, and while there is one it would give an unusually long L-PART1, so it’s an odd length either way.
+See attached snapgene file/screenshot for these annotated onto an example rearranged 10X read. The actual L1+L2 spliced leader we see contiguous with the V region (assuming we have the start codon right) is:
+
+ATGCTGCTGCTTCTGCTGCTTCTGGGGCCAGGCTCCGGGCTT
+
+(As Mats noticed, there’s definitely some funny business going on with the IMGT reported L-PART1/2 boundary!)
+
+Cheers, best,
+
+Jamie
+
+ 
+current            630388                                                 630449                         757     768
+                   ATGCTGCTGCTTCTGCTGCTTCTGGGGCCAGGTATAAGCCTCCTTCTACCTGGGAGCTTGG  GTGGGCAT...GTCTCAGCAG  GCTCCGGGCTT
+revised            ATGCTGCTGCTTCTGCTGCTTCTGGGGCCAG                                                       GCTCCGGGCTT
+                                            630419
+				   

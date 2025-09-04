@@ -1,0 +1,15 @@
+TRAJ16*01: solution with non-canonical motif FARG
+TRAJ16*02: solution with non-canonical motif FARG
+TRAJ35*01: solution with non-canonical motif CGSG
+TRAJ55*01: solution with stop codon in translation
+TRAJ58*01: solution with stop codon in translation
+TRAJ60*01: solution with stop codon in translation
+TRAJ61*01: solution with non-canonical motif FGAN
+TRBJ2-2P*01: solution with non-canonical motif WASG
+TRBJ2-7*02: solution with non-canonical motif VGPG
+TRGJ2*01_====: no solutions
+TRGJ2*01_g1-_2---------------------22: no solutions
+TRGJP1*01: solution with non-canonical motif FAEG
+TRGJP2*01: solution with non-canonical motif FAKG
+TRGJP2*01_a15t: solution with non-canonical motif FAKG
+TRGJP2*01_g40a: solution with non-canonical motif FAKG

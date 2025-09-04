@@ -10,15 +10,17 @@ link to consolidated contigs from all samples:  http://vdjbase-distribution.s3-w
 
 Contigs were annotated with the reference set in ../ricotta_june_2 using the commands below.
 link to annotation file:  http://vdjbase-distribution.s3-website-us-east-1.amazonaws.com/tcr_set/june_7/all_10x_projects_all_contigs.tsv.gz
+http://vdjbase-distribution.s3-website-us-east-1.amazonaws.com/tcr_set/aug_28/all_10x_projects_all_contigs.tsv.gz
+http://vdjbase-distribution.s3-website-us-east-1.amazonaws.com/tcr_set/aug_28/tr_ref_aug_28.zip
 
 docker run -it -v "%cd%":/data:z immcantation/suite:4.6.0 bash
 
 export IGDATA=/usr/local/share/igblast
 time igblastn \
-   -germline_db_V ../ricotta_june_7/db/ricotta_TRV.fasta \
-   -germline_db_J ../ricotta_june_7/db/ricotta_TRJ.fasta \
-   -germline_db_D ../ricotta_june_7/db/ricotta_TRD.fasta \
+   -germline_db_V ../ricotta_aug_28/db/ricotta_TRV.fasta \
+   -germline_db_J ../ricotta_aug_28/db/ricotta_TRJ.fasta \
+   -germline_db_D ../ricotta_aug_28/db/ricotta_TRD.fasta \
    -query all_10x_projects_all_contigs.fasta \
-   -auxiliary_data ../ricotta_june_7/ricotta_TR.aux \
-   -custom_internal_data ../ricotta_june_7/ricotta_TR.ndm \
+   -auxiliary_data ../ricotta_aug_28/ricotta_TR.aux \
+   -custom_internal_data ../ricotta_aug_28/ricotta_TR.ndm \
    -show_translation -outfmt 19 >all_10x_projects_all_contigs.tsv
