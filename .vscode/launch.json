@@ -29,6 +29,14 @@
             "cwd": "${workspaceFolder}",
         },
         {
+            "name": "unsupported_alleles",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/python/unsupported_alleles.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+        },
+        {
             "name": "calc_igblast_support",
             "type": "debugpy",
             "request": "launch",

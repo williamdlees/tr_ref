@@ -30,6 +30,18 @@ def generate_new_label(label_database):
 
 
 loci = ['TRA', 'TRD', 'TRB', 'TRG']
+rs_fields = [
+    'Total_Positions',
+    'Average_Coverage',
+    'Mismatched_Positions_Coverage_10_Or_Greater',
+    'Matched_Positions_Coverage_10_Or_Greater',
+    'Position_Mismatches',
+    'Position_Matches',
+    'Percent_Accuracy',
+    'Positions_With_At_Least_10x_Coverage',
+    'Fully_Spanning_Reads',
+    'Fully_Spanning_Reads_100%_Match'
+]
 
 
 def process_locus(locus):
@@ -51,21 +63,25 @@ def process_locus(locus):
                         'stype': stype,
                         'seq': rec[f'{stype}-REGION'],
                         'seq_gapped': rec['V-REGION-GAPPED'] if stype == 'V' else '',
-                        'support': [rec['subject']],
+                        'supporting_subjs': [rec['subject']],
                         'max_matching_reads': int(float(rec['Fully_Spanning_Reads_100%_Match'])),
                         'max_matching_subj': rec['subject'],
                     }
+                    for field in rs_fields:
+                        alleles[rec['vdjbase_allele']][field] = rec[field]
                 else:
-                    if rec['subject'] not in alleles[rec['vdjbase_allele']]['support']:
-                        alleles[rec['vdjbase_allele']]['support'].append(rec['subject'])
+                    if rec['subject'] not in alleles[rec['vdjbase_allele']]['supporting_subjs']:
+                        alleles[rec['vdjbase_allele']]['supporting_subjs'].append(rec['subject'])
                     if int(float(rec['Fully_Spanning_Reads_100%_Match'])) > alleles[rec['vdjbase_allele']]['max_matching_reads']:
                         alleles[rec['vdjbase_allele']]['max_matching_reads'] = int(float(rec['Fully_Spanning_Reads_100%_Match']))
                         alleles[rec['vdjbase_allele']]['max_matching_subj'] = rec['subject']
+                        for field in rs_fields:
+                            alleles[rec['vdjbase_allele']][field] = rec[field]
 
     # Collapse support to a count
 
     for allele in alleles:
-        alleles[allele]['support'] = len(alleles[allele]['support'])
+        alleles[allele]['supporting_subjs'] = len(alleles[allele]['supporting_subjs'])
 
     # write summary to csv
 
@@ -77,18 +93,23 @@ def process_locus(locus):
         else:
             vdjbase_name = allele.split('_')[0] + '_' + base64.b32encode(alleles[allele]['seq'].encode('utf-8')).decode()[-4:]
 
-        summary.append({
+        sum_rec = {
             'vdjbase_name': vdjbase_name,
             'locus': locus,
             'type': alleles[allele]['stype'],
             'gene': allele.split('*')[0],
             'allele': allele.split('*')[1],
-            'support': alleles[allele]['support'],
+            'supporting_subjs': alleles[allele]['supporting_subjs'],
             'seq': alleles[allele]['seq'],
             'seq_gapped': alleles[allele]['seq_gapped'],
             'max_matching_reads': alleles[allele]['max_matching_reads'],
             'max_matching_subj': alleles[allele]['max_matching_subj'],
-        })
+        }
+
+        for field in rs_fields:
+            sum_rec[field] = alleles[allele][field]
+
+        summary.append(sum_rec)
 
     for stype in ['V', 'D', 'J']:
         seqs = {k: alleles[k]['seq'] for k in alleles.keys() if alleles[k]['stype'] == stype}
@@ -118,7 +139,7 @@ def main():
         found = False
         if rec['seq'] in tcr_db:
             tcr_db[rec['seq']]['vdjbase_name'] = rec['vdjbase_name']
-            tcr_db[rec['seq']]['supporting_subjs'] = rec['support']
+            tcr_db[rec['seq']]['supporting_subjs'] = rec['supporting_subjs']
             tcr_db[rec['seq']]['max_matching_reads'] = rec['max_matching_reads']
             tcr_db[rec['seq']]['max_matching_subj'] = rec['max_matching_subj']
             found = True
@@ -130,15 +151,13 @@ def main():
                     tcr_db[seq]['vdjbase_name'] = rec['vdjbase_name']
                     tcr_db[seq]['max_matching_reads'] = rec['max_matching_reads']
                     tcr_db[seq]['max_matching_subj'] = rec['max_matching_subj']
-                    tcr_db[seq]['supporting_subjs'] = rec['support']
+                    tcr_db[seq]['supporting_subjs'] = rec['supporting_subjs']
                     tcr_db[seq]['seqs'] = ','.join(tcr_db[seq]['seqs'].split(',') + [rec['seq']])
                     tcr_db[seq]['longest_seq'] = rec['seq']
                     if 'notes' not in tcr_db[seq]:
                         tcr_db[seq]['notes'] = ''
                     tcr_db[seq]['notes'] += f'genomic allele is a super-sequence'
                     tcr_db[rec['seq']] = tcr_db[seq]
-                    if seq == 'ACCCAGTCGGTGACCCAGCTTGATGGCCACATCACTGTCTCTGAAGAAGCCCCTCTGGAACTGAAGTGCAACTATTCCTATAGTGGAGTTCCTTCTCTCTTCTGGTATGTCCAATACTCTAGCCAAAGCCTCCAGCTTCTCCTCAAAGACCTAACAGAGGCCACCCAGGTTAAAGGCATCAGAGGTTTTGAGGCTGAATTTAAGAAGAGCGAAACCTCCTTCTACCTGAGGAAACCATCAACCCATGTGAGTGATGCTGCTGAGTACTTCTGTGCTGTGGGTGACAGGAG':
-                        breakpoint()
                     del tcr_db[seq]
                     found = True
                     break
@@ -160,7 +179,7 @@ def main():
                         'seqs': rec['seq'],
                         'longest_seq': rec['seq'],
                         'longest_seq_gapped': rec['seq_gapped'] if rec['seq_gapped'] else rec['seq'],
-                        'supporting_subjs': rec['support'],
+                        'supporting_subjs': rec['supporting_subjs'],
                         'max_matching_reads': rec['max_matching_reads'],
                         'max_matching_subj': rec['max_matching_subj'],
                         'notes': 'sub-sequence of ' + tcr_db[seq]['label'],
@@ -181,7 +200,7 @@ def main():
                 'seqs': rec['seq'],
                 'longest_seq': rec['seq'],
                 'longest_seq_gapped': rec['seq_gapped'] if rec['seq_gapped'] else rec['seq'],
-                'supporting_subjs': rec['support'],
+                'supporting_subjs': rec['supporting_subjs'],
                 'max_matching_reads': rec['max_matching_reads'],
                 'max_matching_subj': rec['max_matching_subj'],
             }
