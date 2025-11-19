@@ -7,8 +7,8 @@ import random
 import base64
 
 allele_dir = 'ricotta_aug_28'
-tcr_db_name_in = 'db/2025_06_07/tcr_db.csv'
-tcr_db_name_out = 'db/2025_08_28/tcr_db.csv'
+tcr_db_name_in = 'db/2025_08_28/tcr_db.csv'
+tcr_db_name_out = 'db/2025_09_24/tcr_db.csv'
 
 label_database = []
 
@@ -52,11 +52,15 @@ def process_locus(locus):
         if rec['vdjbase_allele'] and len(rec['vdjbase_allele']) > 3:
             try:
                 fs_reads = float(rec['Fully_Spanning_Reads'])
-                fm_reads = float(rec['Fully_Spanning_Reads_100%_Match'])
+                accuracy = float(rec['Percent_Accuracy'])
             except ValueError:
                 continue
 
-            if fs_reads > 7 and fm_reads/fs_reads >= 0.8:
+            # Acceptance criteria:
+            # - At least 10 fully spanning reads: fs_reads >= 10
+            # - Every base has at least 80% support from all spanning reads, fully matchng and otherwise: accuracy == 100
+            #   ('accuracy' is is calculated as the percentage of positions in the sequence that have this level of support)
+            if fs_reads >= 10 and accuracy == 100:
                 if rec['vdjbase_allele'] not in alleles:
                     stype = rec['vdjbase_allele'][3]
                     alleles[rec['vdjbase_allele']] = {
@@ -86,6 +90,10 @@ def process_locus(locus):
     # write summary to csv
 
     summary = []
+
+    if 'TRGJ2*01_====' in alleles:
+        print('TRGJ2*01_====' in alleles)        
+
 
     for allele in sorted(alleles.keys(), key=lambda x: (alleles[x]['stype'], x)):
         if len(allele) < 40:
@@ -207,48 +215,5 @@ def main():
 
     # Write the updated database
     simple.write_csv(tcr_db_name_out, list(tcr_db.values()), scan_all=True)
-
-    # pan-locus reference sets
-
-    for stype in ['V', 'D', 'J']:
-        seqs = {}
-        for rec in tcr_db.values():
-            if rec['type'] == stype and 'vdjbase_name' in rec and rec['vdjbase_name']:
-                name = rec['imgt_name'] if ('imgt_name' in rec and rec['imgt_name']) else rec['vdjbase_name']
-                seqs[name] = rec['longest_seq']
-        if seqs:
-            seqs = {k: seqs[k] for k in sorted(seqs.keys())}
-            simple.write_fasta(f'{allele_dir}/ricotta_TR{stype}.fasta', seqs)
-
-        if stype == 'V':
-            seqs = {}
-            for rec in tcr_db.values():
-                if rec['type'] == 'V' and 'vdjbase_name' in rec and 'vdjbase_name' in rec and rec['vdjbase_name']:
-                    name = rec['imgt_name'] if ('imgt_name' in rec and rec['imgt_name']) else rec['vdjbase_name']
-                    seqs[name] = rec['longest_seq_gapped']
-            seqs = {k: seqs[k] for k in sorted(seqs.keys())}
-            simple.write_fasta(f'{allele_dir}/ricotta_TRV_gapped.fasta', seqs)
-
-    # per-locus reference sets
-    for locus in loci:  
-        for stype in ['V', 'D', 'J']:
-            seqs = {}
-            for rec in tcr_db.values():
-                if rec['locus'] == locus and rec['type'] == stype and 'vdjbase_name' in rec and rec['vdjbase_name']:
-                    name = rec['imgt_name'] if ('imgt_name' in rec and rec['imgt_name']) else rec['vdjbase_name']
-                    seqs[name] = rec['longest_seq']
-            if seqs:
-                # sort by name
-                seqs = {k: seqs[k] for k in sorted(seqs.keys())}
-                simple.write_fasta(f'{allele_dir}/ricotta_{locus}{stype}.fasta', seqs)
-
-            if stype == 'V':
-                seqs = {}
-                for rec in tcr_db.values():
-                    if rec['locus'] == locus and rec['type'] == 'V' and 'vdjbase_name' in rec and rec['vdjbase_name']:
-                        name = rec['imgt_name'] if ('imgt_name' in rec and rec['imgt_name']) else rec['vdjbase_name']
-                        seqs[name] = rec['longest_seq_gapped']
-                seqs = {k: seqs[k] for k in sorted(seqs.keys())}        
-                simple.write_fasta(f'{allele_dir}/ricotta_{locus}V_gapped.fasta', seqs)
 
 main()

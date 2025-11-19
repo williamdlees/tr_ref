@@ -43,6 +43,14 @@
             "program": "${workspaceFolder}/python/calc_igblast_support.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/all_projects",
+        },
+        {
+            "name": "add_all_imgt_seqs",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/python/add_all_imgt_seqs.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
         }
     ]
 }
